@@ -1,4 +1,4 @@
-// Fade-in hiệu ứng khi cuộn
+// Hiệu ứng fade-in khi cuộn
 const fades = document.querySelectorAll('.fade');
 function showOnScroll() {
   fades.forEach((el) => {
