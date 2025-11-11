@@ -9,57 +9,57 @@
 <body>
 
   <!-- HEADER -->
-  <header>
-    <h1>Chào mừng đến với Thành phố Cần Thơ</h1>
-    <p>Trung tâm miền Tây Nam Bộ – Hiền hòa, năng động, trù phú 🌿</p>
+  <header class="fade-in">
+    <h1>Chào mừng đến với Thành phố Cần Thơ 🌇</h1>
+    <p>Trung tâm miền Tây Nam Bộ – Hiền hòa, năng động và trù phú</p>
   </header>
 
   <!-- GIỚI THIỆU -->
-  <section id="about">
-    <h2>🌇 Giới thiệu chung</h2>
+  <section id="about" class="fade-in">
+    <h2>Giới thiệu chung</h2>
     <p>
-      Cần Thơ nằm bên dòng sông Hậu hiền hòa, được mệnh danh là “Tây Đô” – thủ phủ của miền Tây Nam Bộ.
-      Nơi đây nổi tiếng với con người thân thiện, cảnh sắc sông nước hữu tình và nền văn hóa miệt vườn đặc sắc.
+      Cần Thơ – “Tây Đô” của miền Tây Nam Bộ, nằm bên dòng sông Hậu hiền hòa. 
+      Thành phố mang vẻ đẹp dung dị nhưng năng động, là trung tâm kinh tế – văn hóa của khu vực Đồng bằng Sông Cửu Long.
     </p>
-    <img src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều - Cần Thơ" />
+    <img loading="lazy" src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều - Cần Thơ" class="zoom-img"/>
   </section>
 
   <!-- ĐỊA ĐIỂM -->
-  <section id="places">
-    <h2>📍 Địa điểm nổi bật</h2>
+  <section id="places" class="fade-in">
+    <h2>Địa điểm nổi bật</h2>
     <div class="places-grid">
       <div class="place">
-        <img src="cho-noi-cai-rang.jpg" alt="Chợ nổi Cái Răng" />
+        <img loading="lazy" src="cho-noi-cai-rang.jpg" alt="Chợ nổi Cái Răng" class="zoom-img"/>
         <h3>Chợ nổi Cái Răng</h3>
-        <p>Biểu tượng đặc trưng của miền sông nước, nơi bạn có thể thưởng thức ẩm thực ngay trên thuyền.</p>
+        <p>Đậm đà bản sắc miền Tây, nơi giao thương nhộn nhịp giữa sông nước.</p>
       </div>
 
       <div class="place">
-        <img src="cau-can-tho.jpg" alt="Cầu Cần Thơ" />
+        <img loading="lazy" src="cau-can-tho.jpg" alt="Cầu Cần Thơ" class="zoom-img"/>
         <h3>Cầu Cần Thơ</h3>
-        <p>Công trình hiện đại bắc qua sông Hậu – niềm tự hào của người dân miền Tây.</p>
+        <p>Biểu tượng hiện đại của miền Tây, bắc qua dòng sông Hậu trữ tình.</p>
       </div>
 
       <div class="place">
-        <img src="dai-hoc-can-tho.jpg" alt="Đại học Cần Thơ" />
+        <img loading="lazy" src="dai-hoc-can-tho.jpg" alt="Đại học Cần Thơ" class="zoom-img"/>
         <h3>Đại học Cần Thơ</h3>
-        <p>Trường đại học trọng điểm quốc gia, đào tạo hàng chục ngàn sinh viên mỗi năm.</p>
+        <p>Trường đại học trọng điểm, niềm tự hào của sinh viên miền Tây.</p>
       </div>
     </div>
   </section>
 
   <!-- ẨM THỰC -->
-  <section id="food">
-    <h2>🍽️ Ẩm thực Cần Thơ</h2>
+  <section id="food" class="fade-in">
+    <h2>Ẩm thực Cần Thơ</h2>
     <p>
-      Ẩm thực nơi đây là sự kết hợp tinh tế giữa dân dã và phong phú – 
-      từ món bánh xèo vàng giòn cho đến trái cây miệt vườn ngọt lành.
+      Ẩm thực nơi đây mang đậm phong vị miệt vườn – giản dị mà tinh tế. 
+      Bánh xèo, cá lóc nướng trui, hay những trái cây ngọt lành đều để lại ấn tượng khó quên.
     </p>
-    <img src="banh-xeo.jpg" alt="Bánh xèo Cần Thơ" />
+    <img loading="lazy" src="banh-xeo.jpg" alt="Bánh xèo Cần Thơ" class="zoom-img"/>
   </section>
 
-  <!-- BÌNH LUẬN -->
-  <section id="feedback">
+  <!-- GÓP Ý -->
+  <section id="feedback" class="fade-in">
     <h2>💬 Góp ý & Bình luận</h2>
     <textarea id="commentBox" placeholder="Nhập bình luận của bạn..."></textarea>
     <button id="sendComment">Gửi</button>
@@ -67,7 +67,7 @@
   </section>
 
   <!-- LIÊN HỆ -->
-  <section id="contact">
+  <section id="contact" class="fade-in">
     <h2>📞 Liên hệ</h2>
     <p>Điện thoại góp ý: <strong>0909552009</strong></p>
     <p id="visitCount">Đang tải lượt truy cập...</p>
@@ -78,7 +78,16 @@
     <p>© 2025 Giới thiệu Cần Thơ | Thiết kế bởi <strong>nthe1206</strong></p>
   </footer>
 
-  <!-- Script -->
   <script type="module" src="script.js"></script>
+  <script>
+    // Hiệu ứng cuộn mượt
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.2 });
+    fadeEls.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
