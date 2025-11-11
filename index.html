@@ -3,106 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Khám phá Thành phố Cần Thơ</title>
+  <title>Giới thiệu Cần Thơ</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
 </head>
 <body>
   <header>
-    <h1>Cần Thơ – Trái tim miền Tây</h1>
-    <nav>
-      <a href="#about">Giới thiệu</a>
-      <a href="#places">Địa điểm nổi bật</a>
-      <a href="#food">Ẩm thực</a>
-      <a href="#contact">Góp ý</a>
-    </nav>
+    <h1>Chào mừng đến với Thành phố Cần Thơ</h1>
+    <p>Thành phố trung tâm của miền Tây Nam Bộ - hiền hòa, năng động và trù phú</p>
   </header>
 
-  <section class="hero">
-    <div class="overlay"></div>
-    <div class="hero-text">
-      <h2>Chào mừng đến với Cần Thơ</h2>
-      <p>
-        Vùng đất sông nước hữu tình, nơi hội tụ văn hóa, con người và nhịp sống
-        hiền hòa bên dòng sông Hậu.
-      </p>
-    </div>
+  <section id="gioithieu">
+    <h2>Giới thiệu chung</h2>
+    <p>
+      Cần Thơ nằm bên dòng sông Hậu hiền hòa, được mệnh danh là “Tây Đô” - thủ phủ của miền Tây Nam Bộ. 
+      Nơi đây nổi tiếng với những con người thân thiện, cảnh sắc sông nước hữu tình và nền văn hóa miệt vườn đặc sắc.
+    </p>
+    <img src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều" />
   </section>
 
-  <section id="about">
-    <h2>Giới thiệu về Cần Thơ</h2>
-    <p>
-      Thành phố Cần Thơ – còn được gọi thân thương là “Tây Đô” – là trung tâm văn hóa,
-      kinh tế và du lịch lớn nhất miền Tây Nam Bộ. Với hệ thống sông ngòi chằng chịt,
-      vườn cây trái xanh mát quanh năm và con người hiền hòa, Cần Thơ mang đến cảm giác
-      gần gũi và thân thuộc đến lạ thường.  
-    </p>
-    <p>
-      Đặc biệt, Bến Ninh Kiều – biểu tượng của thành phố – là nơi du khách có thể ngắm
-      nhìn khung cảnh lung linh ánh đèn phản chiếu trên mặt nước, cùng những con thuyền
-      trôi lững lờ mang đậm hồn quê Việt.
-    </p>
-    <img src="assets/img/ben-ninh-kieu.jpg" alt="Bến Ninh Kiều – Cần Thơ" class="fade-in" />
-  </section>
-
-  <section id="places">
+  <section id="diadiem">
     <h2>Địa điểm nổi bật</h2>
-    <div class="card-container">
-      <div class="card fade-in">
-        <img src="assets/img/cho-noi-cai-rang.jpg" alt="Chợ nổi Cái Răng" />
+    <div class="places">
+      <div class="place">
+        <img src="cho-noi-cai-rang.jpg" alt="Chợ nổi Cái Răng" />
         <h3>Chợ nổi Cái Răng</h3>
-        <p>
-          Một trong những chợ nổi nổi tiếng nhất miền Tây, nơi buôn bán diễn ra ngay
-          trên sông với hàng trăm ghe thuyền chở đầy trái cây, đặc sản, tiếng rao hàng
-          rộn ràng từ sớm tinh mơ.
-        </p>
+        <p>Nơi buôn bán tấp nập trên sông, biểu tượng của văn hóa sông nước miền Tây.</p>
       </div>
-      <div class="card fade-in">
-        <img src="assets/img/cau-can-tho.jpg" alt="Cầu Cần Thơ" />
+      <div class="place">
+        <img src="cau-can-tho.jpg" alt="Cầu Cần Thơ" />
         <h3>Cầu Cần Thơ</h3>
-        <p>
-          Cây cầu dây văng lớn nhất Việt Nam – biểu tượng của sự phát triển và hiện đại
-          của vùng sông nước. Về đêm, cầu Cần Thơ tỏa sáng rực rỡ như một dải lụa ánh sáng.
-        </p>
+        <p>Biểu tượng hiện đại nối liền hai bờ sông Hậu, niềm tự hào của người dân nơi đây.</p>
       </div>
-      <div class="card fade-in">
-        <img src="assets/img/dai-hoc-can-tho.jpg" alt="Đại học Cần Thơ" />
+      <div class="place">
+        <img src="dai-hoc-can-tho.jpg" alt="Đại học Cần Thơ" />
         <h3>Đại học Cần Thơ</h3>
-        <p>
-          Trường đại học trọng điểm quốc gia, nơi hội tụ trí tuệ trẻ của miền Tây.
-          Khuôn viên xanh mát, hiện đại và thân thiện, luôn mở cửa chào đón sinh viên từ khắp nơi.
-        </p>
+        <p>Ngôi trường trọng điểm quốc gia, đào tạo hàng chục nghìn sinh viên mỗi năm.</p>
       </div>
     </div>
   </section>
 
-  <section id="food">
+  <section id="amthuc">
     <h2>Ẩm thực Cần Thơ</h2>
+    <img src="banh-xeo.jpg" alt="Bánh xèo Cần Thơ" />
     <p>
-      Ẩm thực Cần Thơ là tinh hoa của miền sông nước – dân dã mà đậm đà.  
-      Từ bánh xèo vàng giòn, lẩu mắm thơm phức, đến trái cây miệt vườn ngọt lịm,
-      mỗi món ăn đều mang một câu chuyện và tình cảm chân chất của con người nơi đây.
+      Bánh xèo Cần Thơ với lớp vỏ giòn rụm, nhân tôm thịt và giá đỗ đậm đà, là món ăn gắn liền với nét dân dã Nam Bộ.
     </p>
-    <img src="assets/img/banh-xeo.jpg" alt="Bánh xèo miền Tây" class="fade-in" />
   </section>
 
-  <section id="contact">
-    <h2>Góp ý & Liên hệ</h2>
-    <p>Hãy để lại lời nhắn, góp ý hoặc chia sẻ cảm nhận của bạn về thành phố Cần Thơ 🌿</p>
-
-    <div id="comment-box">
-      <input type="text" id="name" placeholder="Tên của bạn..." />
-      <textarea id="message" placeholder="Góp ý của bạn..."></textarea>
-      <button id="send">Gửi</button>
-      <ul id="comments-list"></ul>
-    </div>
-
-    <p class="contact-info">📞 SĐT: <strong>0909 552 009</strong></p>
-    <p class="counter">👁️ Lượt truy cập: <span id="visitor-count">0</span></p>
+  <section id="lienhe">
+    <h2>Liên hệ</h2>
+    <p>Liên hệ góp ý: <strong>0909552009</strong></p>
   </section>
 
   <footer>
     <p>© 2025 Giới thiệu Cần Thơ | Thiết kế bởi nthe1206</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
