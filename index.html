@@ -1,72 +1,49 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giới thiệu Cần Thơ</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>🌴 Thành phố Cần Thơ 🌴</h1>
-    <p>Vẻ đẹp sông nước miền Tây – thân thiện, hiếu khách và đầy sức sống</p>
+    <h1>Thành phố Cần Thơ</h1>
+    <p>Hiền hòa – năng động – phát triển</p>
   </header>
 
-  <section id="gioithieu" class="fade">
-    <h2>Giới thiệu chung</h2>
-    <p>
-      Cần Thơ là trung tâm kinh tế, văn hóa và du lịch của miền Tây Nam Bộ.
-      Với vị trí bên dòng sông Hậu, nơi đây vừa hiện đại vừa giữ được nét duyên dáng của vùng sông nước.
-    </p>
-    <img src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều" loading="lazy" />
-  </section>
+  <main>
+    <section class="fade">
+      <h2>Giới thiệu</h2>
+      <p>Cần Thơ nằm bên dòng sông Hậu, là trung tâm kinh tế – văn hóa – du lịch của miền Tây Nam Bộ...</p>
+      <img src="ben-ninh-kieu.jpg" alt="Bến Ninh Kiều" loading="lazy">
+    </section>
 
-  <section id="diadiem" class="fade">
-    <h2>Địa điểm nổi bật</h2>
-    <div class="places">
-      <div class="place">
-        <img src="cho-noi-cai-rang.jpg" alt="Chợ nổi Cái Răng" loading="lazy" />
-        <h3>Chợ nổi Cái Răng</h3>
-        <p>Biểu tượng đặc trưng của miền sông nước – nơi buôn bán tấp nập trên dòng Hậu Giang.</p>
+    <section class="fade">
+      <h2>Ẩm thực</h2>
+      <img src="banh-xeo.jpg" alt="Bánh xèo Cần Thơ" loading="lazy">
+      <p>Bánh xèo giòn rụm, vàng ươm – món ngon dân dã đặc trưng vùng sông nước.</p>
+    </section>
+
+    <section class="fade" id="comments">
+      <h2>💬 Bình luận & Góp ý</h2>
+      <div class="comment-box">
+        <input type="text" id="commentName" placeholder="Tên của bạn">
+        <textarea id="commentText" placeholder="Viết bình luận của bạn..."></textarea>
+        <button id="sendComment">Gửi</button>
       </div>
-      <div class="place">
-        <img src="cau-can-tho.jpg" alt="Cầu Cần Thơ" loading="lazy" />
-        <h3>Cầu Cần Thơ</h3>
-        <p>Công trình hiện đại bắc qua sông, là niềm tự hào của người dân miền Tây.</p>
-      </div>
-      <div class="place">
-        <img src="dai-hoc-can-tho.jpg" alt="Đại học Cần Thơ" loading="lazy" />
-        <h3>Đại học Cần Thơ</h3>
-        <p>Ngôi trường trọng điểm quốc gia, nơi ươm mầm tri thức cho thế hệ trẻ miền Tây.</p>
-      </div>
-    </div>
-  </section>
+      <div id="commentList"></div>
+      <button id="loadMore" class="hidden">Xem thêm bình luận</button>
+    </section>
 
-  <section id="amthuc" class="fade">
-    <h2>Ẩm thực Cần Thơ</h2>
-    <img src="banh-xeo.jpg" alt="Bánh xèo Cần Thơ" loading="lazy" />
-    <p>
-      Bánh xèo giòn tan, vàng ruộm, ăn cùng rau xanh và nước chấm chua ngọt – hương vị đậm đà khó quên của miền sông nước.
-    </p>
-  </section>
-
-  <section id="gopy" class="fade">
-    <h2>Góp ý cho trang web</h2>
-    <form action="https://formspree.io/f/xeoqqgkl" method="POST" class="feedback">
-      <input type="text" name="name" placeholder="Tên của bạn" required />
-      <textarea name="message" placeholder="Nội dung góp ý..." required></textarea>
-      <button type="submit">Gửi góp ý</button>
-    </form>
-  </section>
-
-  <section id="lienhe" class="fade">
-    <h2>Liên hệ</h2>
-    <p>Liên hệ trực tiếp qua sđt/zalo:<strong>0909552009</strong></p>
-  </section>
+    <section class="fade">
+      <h2>📞 Liên hệ</h2>
+      <p>Liên hệ sđt/zalo: <strong>0909552009</strong></p>
+    </section>
+  </main>
 
   <footer>
-    <p>© 2025 Giới thiệu Cần Thơ | Thiết kế bởi NGUYEN THANH THE</p>
-    <p>Lượt truy cập: <span id="view-count">...</span></p>
+    <p>© 2025 Giới thiệu Cần Thơ | Lượt truy cập: <span id="view-count">0</span></p>
   </footer>
 
   <script src="script.js"></script>
