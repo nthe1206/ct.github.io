@@ -1,7 +1,13 @@
+// script.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, push, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import {
+  getDatabase, ref, push, onValue, set, get, remove
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import {
+  getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// --- Firebase Config ---
+/* ========== cấu hình Firebase (dán giống như bạn đã có) ========== */
 const firebaseConfig = {
   apiKey: "AIzaSyD9_pM1QPug4y_7FT1ltYg6-eUDgz17NOo",
   authDomain: "cantho-22806.firebaseapp.com",
@@ -13,58 +19,187 @@ const firebaseConfig = {
   measurementId: "G-QPNY1FV450"
 };
 
-// --- Init Firebase ---
+/* ========== init ========== */
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-// --- Đếm lượt truy cập ---
-const visitRef = ref(db, "visits/count");
-get(visitRef).then((snapshot) => {
-  let count = snapshot.exists() ? snapshot.val() : 0;
-  count++;
-  set(visitRef, count);
-  document.getElementById("visitCount").innerText = `👁️ Lượt truy cập: ${count}`;
+/* ========== DOM ========== */
+const btnSignIn = document.getElementById('btnSignIn');
+const btnSignOut = document.getElementById('btnSignOut');
+const authName = document.getElementById('authName');
+
+const commentBox = document.getElementById('commentBox');
+const sendBtn = document.getElementById('sendComment');
+const commentList = document.getElementById('commentList');
+const visitCountEl = document.getElementById('visitCount');
+
+const commentsRef = ref(db, 'comments');
+const visitRef = ref(db, 'visits/count');
+
+/* ========== Auth handlers ========== */
+let currentUser = null;
+let isAdmin = false;
+
+btnSignIn.addEventListener('click', () => {
+  signInWithPopup(auth, provider).catch(err => alert('Đăng nhập lỗi: ' + err.message));
 });
+btnSignOut.addEventListener('click', () => signOut(auth));
 
-// --- Bình luận realtime ---
-const commentBox = document.getElementById("commentBox");
-const commentButton = document.getElementById("sendComment");
-const commentList = document.getElementById("commentList");
-const commentsRef = ref(db, "comments");
-
-commentButton.addEventListener("click", () => {
-  const text = commentBox.value.trim();
-  if (text === "") return alert("⚠️ Vui lòng nhập nội dung bình luận!");
-  const newComment = {
-    text: text,
-    timestamp: new Date().toLocaleString("vi-VN")
-  };
-  push(commentsRef, newComment);
-  commentBox.value = "";
-});
-
-// Hiển thị realtime
-onValue(commentsRef, (snapshot) => {
-  const data = snapshot.val();
-  commentList.innerHTML = "";
-
-  if (data) {
-    const entries = Object.values(data);
-    const recent = entries.slice(-10);
-    for (let c of recent) {
-      const div = document.createElement("div");
-      div.classList.add("comment");
-      div.innerHTML = `<p>${c.text}</p><span>${c.timestamp}</span>`;
-      commentList.prepend(div);
-    }
-
-    if (entries.length > 10) {
-      const more = document.createElement("div");
-      more.classList.add("more-comments");
-      more.innerText = `Đã rút gọn ${entries.length - 10} bình luận cũ hơn...`;
-      commentList.appendChild(more);
+onAuthStateChanged(auth, async (user) => {
+  currentUser = user;
+  if (user) {
+    btnSignIn.style.display = 'none';
+    btnSignOut.style.display = 'inline-block';
+    authName.textContent = user.displayName || user.email;
+    // kiểm tra admin flag trong DB
+    try {
+      const snap = await get(ref(db, `admins/${user.uid}`));
+      isAdmin = snap.exists() && snap.val() === true;
+    } catch (e) {
+      console.error('Lỗi lấy admin flag', e);
+      isAdmin = false;
     }
   } else {
-    commentList.innerHTML = "<p>Chưa có bình luận nào, hãy là người đầu tiên!</p>";
+    btnSignIn.style.display = 'inline-block';
+    btnSignOut.style.display = 'none';
+    authName.textContent = '';
+    isAdmin = false;
   }
+  // khi auth thay đổi, render lại comment (để hiển thị nút Xóa nếu admin)
+  // lastSnapshot sẽ được cập nhật bởi onValue; gọi renderComments() nếu cần
+  if (lastSnapshot) renderComments(lastSnapshot);
+});
+
+/* ========== visit counter (atomic-ish) ========== */
+get(visitRef).then(snap => {
+  let count = snap.exists() ? snap.val() : 0;
+  count++;
+  set(visitRef, count);
+  visitCountEl.textContent = `👁️ Lượt truy cập: ${count}`;
+}).catch(err => console.error(err));
+
+
+/* ========== sanitize helper ========== */
+function sanitize(input) {
+  return input
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/* ========== submit comment ========== */
+sendBtn.addEventListener('click', async () => {
+  const raw = (commentBox.value || '').trim();
+  if (!raw) return alert('Vui lòng nhập nội dung!');
+  if (raw.length > 500) return alert('Bình luận quá dài (tối đa 500 ký tự).');
+
+  const safe = sanitize(raw);
+  const payload = {
+    text: safe,
+    timestamp: new Date().toLocaleString('vi-VN'),
+    uid: currentUser ? currentUser.uid : null
+  };
+
+  try {
+    await push(commentsRef, payload);
+    commentBox.value = '';
+  } catch (e) {
+    alert('Gửi bình luận thất bại: ' + e.message);
+  }
+});
+
+/* ========== render comments (realtime) ========== */
+let lastSnapshot = null;
+
+function renderComments(snapshot) {
+  // nếu gọi trực tiếp với snapshot
+  if (snapshot && typeof snapshot.val === 'function') lastSnapshot = snapshot;
+  if (!lastSnapshot) {
+    commentList.innerHTML = '<p>Đang tải bình luận...</p>';
+    return;
+  }
+  const data = lastSnapshot.val();
+  commentList.innerHTML = '';
+  if (!data) {
+    commentList.innerHTML = '<p>Chưa có bình luận nào — hãy là người đầu tiên!</p>';
+    return;
+  }
+
+  // entries: [ [key,value], ... ] tăng dần theo thời gian
+  const entries = Object.entries(data);
+  // lấy 100 gần nhất, đảo để hiển thị mới nhất lên trên
+  const recent = entries.slice(-100).reverse();
+
+  const SHOW = 10;
+  let shown = 0;
+
+  for (const [key, obj] of recent) {
+    if (shown >= SHOW) break;
+    const div = document.createElement('div');
+    div.className = 'comment';
+
+    const p = document.createElement('p');
+    p.textContent = obj.text;
+    const s = document.createElement('span');
+    s.textContent = obj.timestamp + (obj.uid ? ` • ${obj.uid}` : '');
+
+    div.appendChild(p);
+    div.appendChild(s);
+
+    if (isAdmin) {
+      const del = document.createElement('button');
+      del.className = 'delete-btn';
+      del.textContent = 'Xóa';
+      del.addEventListener('click', async () => {
+        if (!confirm('Bạn có chắc muốn xóa bình luận này?')) return;
+        try {
+          await remove(ref(db, `comments/${key}`));
+        } catch (e) {
+          alert('Xóa lỗi: ' + e.message);
+        }
+      });
+      div.appendChild(del);
+    }
+
+    commentList.appendChild(div);
+    shown++;
+  }
+
+  if (recent.length > SHOW) {
+    const more = document.createElement('button');
+    more.className = 'more-btn';
+    more.textContent = `Xem thêm ${recent.length - SHOW} bình luận cũ hơn`;
+    more.addEventListener('click', () => {
+      // hiển thị tất cả recent (đã reverse)
+      commentList.innerHTML = '';
+      for (const [key, obj] of recent) {
+        const div = document.createElement('div');
+        div.className = 'comment';
+        const p = document.createElement('p'); p.textContent = obj.text;
+        const s = document.createElement('span'); s.textContent = obj.timestamp + (obj.uid ? ` • ${obj.uid}` : '');
+        div.appendChild(p); div.appendChild(s);
+        if (isAdmin) {
+          const del = document.createElement('button'); del.className='delete-btn'; del.textContent='Xóa';
+          del.addEventListener('click', async () => {
+            if (!confirm('Bạn có chắc muốn xóa bình luận này?')) return;
+            try { await remove(ref(db, `comments/${key}`)); } catch(e){ alert('Xóa lỗi: '+e.message); }
+          });
+          div.appendChild(del);
+        }
+        commentList.appendChild(div);
+      }
+      more.remove();
+    });
+    commentList.parentNode.appendChild(more);
+  }
+}
+
+/* realtime listener */
+onValue(commentsRef, (snap) => {
+  lastSnapshot = snap;
+  renderComments();
 });
